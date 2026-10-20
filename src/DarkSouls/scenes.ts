@@ -130,10 +130,11 @@ class DKSSceneDesc implements Viewer.SceneDesc {
         const areaID = this.id.slice(0, 3); // "m10"
 
         const arcName = `${this.id}_arc.crg1`;
-        fetchCRG1Arc(resourceSystem, arcName);
-        resourceSystem.fetchLoose(`mtd/Mtd.mtdbnd`);
-        DrawParamBank.fetchResources(resourceSystem, areaID);
-        await dataFetcher.waitForLoad();
+        await Promise.all([
+            fetchCRG1Arc(resourceSystem, arcName),
+            resourceSystem.fetchLoose(`mtd/Mtd.mtdbnd`),
+            DrawParamBank.fetchResources(resourceSystem, areaID),
+        ]);
 
         const renderer = new DarkSoulsRenderer(context);
         const renderContext = renderer.renderContext;

@@ -1798,10 +1798,12 @@ export class DrawParamBank {
         return L;
     }
 
-    public static fetchResources(resourceSystem: ResourceSystem, areaID: string): void {
+    public static async fetchResources(resourceSystem: ResourceSystem, areaID: string): Promise<void> {
         const aid = `a${areaID.slice(1, 3)}`;
-        resourceSystem.fetchLoose(`paramdef/paramdef.paramdefbnd`);
-        resourceSystem.fetchLoose(`param/DrawParam/${aid}_DrawParam.parambnd`);
+        await Promise.all([
+            resourceSystem.fetchLoose(`paramdef/paramdef.paramdefbnd`),
+            resourceSystem.fetchLoose(`param/DrawParam/${aid}_DrawParam.parambnd`),
+        ]);
     }
 }
 
